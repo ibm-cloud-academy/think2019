@@ -1,7 +1,8 @@
 #!/bin/bash
   echo "Logging in as $1 with the password $2"
-  ibmcloud login -u $1@us.ibm.com -p $2 -g default
-  ibmcloud plugin install kubernetes-services
+  ibmcloud config --check-version=false
+  echo 1 | ibmcloud login -a https://api.ng.bluemix.net -u $1@us.ibm.com -p $2 -g default
+  ibmcloud plugin install kubernetes-service
   ibmcloud plugin install container-registry
   ibmcloud cr namespace-add "$1"usibmcom
 
