@@ -1,13 +1,14 @@
 #!/bin/bash
   echo "Logging in as $1 with the password $2"
-  ibmcloud login -u $1@us.ibm.com -p $2 -g default
-  ibmcloud plugin install kubernetes-services
+  ibmcloud config --check-version=false
+  echo 1 | ibmcloud login -a https://api.ng.bluemix.net -u $1@us.ibm.com -p $2 -g default
+  ibmcloud plugin install kubernetes-service
   ibmcloud plugin install container-registry
 
   ibmcloud ks cluster-create --name cloudcluster
 
   cnt=0
-  while [ $cnt -le 1 ]
+  while [ $cnt -lt 1 ]
   do
     cnt=`ibmcloud ks clusters | grep normal | wc -l`
     sleep 30
@@ -21,7 +22,7 @@
   helm install ibm-charts/ibm-istio --name istio --namespace istio-system
   cd /home/localuser
   docker run --rm -v /home/localuser:/home ibmcom/istioctl:1.0.0 tar -xzvf /root/istio-1.0.0.tar.gz -C /home
-  cp /home/localuser/istio-1.0.0/bin/istioctl /usr/local/bin/istioctl
+  echo passw0rd | sudo -S cp /home/localuser/istio-1.0.0/bin/istioctl /usr/local/bin/istioctl
   git clone https://github.com/ibm-cloud-academy/istio-yaml
 
   echo " Setup successful"
