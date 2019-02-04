@@ -9,7 +9,7 @@
   ibmcloud ks cluster-create --name cloudcluster
 
   cnt=0
-  while [ $cnt -le 1 ]
+  while [ $cnt -lt 1 ]
   do
     cnt=`ibmcloud ks clusters | grep normal | wc -l`
     sleep 30
